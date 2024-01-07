@@ -21,7 +21,6 @@ from utils.misc import fixseed
 from utils.model_util import create_model_and_diffusion, load_model
 from visualize.render_codes import BodyRenderer
 
-
 class GradioModel:
     def __init__(self, face_args, pose_args) -> None:
         self.face_model, self.face_diffusion, self.device = self._setup_model(
@@ -152,7 +151,6 @@ class GradioModel:
         print(f"created {len(all_motions) * num_repetitions} samples")
         return np.concatenate(all_motions, axis=0)
 
-
 def generate_results(audio: np.ndarray, num_repetitions: int, top_p: float):
     if audio is None:
         raise gr.Error("Please record audio to start")
@@ -215,7 +213,6 @@ def generate_results(audio: np.ndarray, num_repetitions: int, top_p: float):
     )
     return face_results, pose_results, dual_audio[0].transpose(1, 0).astype(np.float32)
 
-
 def audio_to_avatar(audio: np.ndarray, num_repetitions: int, top_p: float):
     face_results, pose_results, audio = generate_results(audio, num_repetitions, top_p)
     # returns: num_rep x T x 104
@@ -233,7 +230,6 @@ def audio_to_avatar(audio: np.ndarray, num_repetitions: int, top_p: float):
         results += [gr.Video(value=f"/tmp/sample{i}_pred.mp4", visible=True)]
     results += [gr.Video(visible=False) for _ in range(B, 10)]
     return results
-
 
 gradio_model = GradioModel(
     face_args="./checkpoints/diffusion/c1_face/args.json",
